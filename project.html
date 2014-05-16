@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+</script>
+<script src="js/riffwave.js"></script>
+<script>
+$(document).ready(function(){
+  $("p").click(function(){
+    $(this).hide();
+  });
+});
+
+var myPitch = 220;
+
+function play_tone(freq) {
+ 
+  var samples = [];
+  var samples_length = 22050;            // .5 second (44.1 KHz)
+  for (var i=0; i<samples_length; i++) { // fills array with samples
+    var t = i/samples_length;            // time from 0 to 1
+    // Generate samples using sine wave equation (between 0 and 255)
+    samples[i] = 128+Math.round(127*Math.sin(freq*2*Math.PI*t));
+  }
+ 
+  var wave = new RIFFWAVE();          // Create raw wav file
+      wave.header.sampleRate = 44100; // 44.1Khz (1 second)
+      wave.header.numChannels = 1;    // 1 channel (mono)
+      wave.Make(samples);
+ 
+  var audio = new Audio();    // Create <audio> tag
+      audio.src=wave.dataURI;
+      audio.play();
+}
+
+function play_note(freq) {
+	play_tone(freq);
+	myPitch = freq;
+}
+
+function play_current(){
+	play_tone(myPitch);
+}
+
+function keydown(e){
+
+var step = 1.059463094359;
+var shift = 1;
+
+	console.log(e);
+//change the note!
+
+switch (e.which) {
+//same
+//space
+case 32:
+    play_current();
+    break;
+//down a half step
+//g
+case 71:
+    myPitch = myPitch/step;
+    play_tone((myPitch));
+    break;
+//up a half step
+//h
+case 72:
+    myPitch = myPitch*step;
+    play_tone((myPitch));
+    break;
+
+//up and down a whole step
+//f
+case 70:
+    shift = Math.pow(step, -2)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+//j
+case 74:
+    shift = Math.pow(step, 2)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+
+//Third up and down
+//d
+case 68:
+    shift = Math.pow(step, -4)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+//k
+case 75:
+    shift = Math.pow(step, 4)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+//Fifth up and down
+//s
+case 83:
+    shift = Math.pow(step, -7)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+//l
+case 76:
+    shift = Math.pow(step, 7)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+//Octave
+//a
+case 65:
+    shift = Math.pow(step, -12)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+//;
+case 59:
+    shift = Math.pow(step, 12)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+case 80:
+    shift = Math.pow(step, 12)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+
+
+//Time to cover the rest
+
+// 3 steps
+//v
+case 86:
+    shift = Math.pow(step, -3);
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+//n
+case 78:
+    shift = Math.pow(step, 3)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+// 5 steps (fourth)
+//e
+case 69:
+    shift = Math.pow(step, -5)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+//i
+case 73:
+    shift = Math.pow(step, 5)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+// 6 steps
+//x
+case 88:
+    shift = Math.pow(step, -6)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+//,
+case 188:
+    shift = Math.pow(step, 6)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+// 8 steps
+//w
+case 87:
+    shift = Math.pow(step, -8)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+//o
+case 79:
+    shift = Math.pow(step, 8)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+// 9 steps
+//r
+case 82:
+    shift = Math.pow(step, -9)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+//u
+case 85:
+    shift = Math.pow(step, 9)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+// 10 steps
+//c
+case 67:
+    shift = Math.pow(step, -10)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+//m
+case 77:
+    shift = Math.pow(step, 10)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+// 11 steps
+//t
+case 84:
+    shift = Math.pow(step, -11)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+case 90:
+    shift = Math.pow(step, 11)
+    myPitch = myPitch*shift;
+    play_tone((myPitch));
+    break;
+
+default:
+	play_current();
+	
+}
+}
+
+</script>
+
+</head>
+<body>
+<p>Welcome to Matt's Relative Music Machine. Press notes to make music.</p>
+<p> "Press the buttons to set the current pitch absolutely" </p>
+		<button type="button" onclick="play_current()"> Current </button>
+<p></p>
+
+		<button type="button" onclick="play_note(440)">  A  </button>
+		<button type="button" onclick="play_note(523.2)">  C  </button>
+		<button type="button" onclick="play_note(698.5)">  F  </button>
+		<button type="button" onclick="play_note(1046.5)">  C </button>
+
+		<script>
+			document.body.addEventListener('keyup', keydown);
+			//initialize();
+		</script>
+
+</body>
+</html>
